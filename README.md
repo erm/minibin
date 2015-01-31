@@ -1,4 +1,4 @@
-#  minib.in
+#  minibin
 
 A minimal pastebin created using Python 3.4 and the Flask micro-framework.
 
