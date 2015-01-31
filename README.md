@@ -1,0 +1,2 @@
+# minibin
+A minimal pastebin
