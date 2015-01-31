@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  {% block head %}
+  <title>minibin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <meta charset="utf-8">
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style type="text/css">
+    body {
+      font-family:arial;
+    }
+    #content {
+        text-align:left;
+        width:500px;
+        padding:0;
+    }
+    textarea {
+        font-family: monospace;
+        display: block;
+        width: 500px;
+        height: 300px;
+    }
+    pre {
+        margin:0;
+        padding:0;
+    }
+    code {
+        font-family:monospace;
+        margin: 0;
+        padding: 0 30px;
+        display: block;
+        font-size: .85em;
+        line-height: 1.6em;
+    }
+    #header {
+      font-size: 15px;
+      padding-bottom:5px;
+    }
+    .flash {
+      font-size: 17px;
+      font-weight:bold;
+      text-decoration: none;
+    }
+    
+  }
+  </style>
+</head>
+  {% endblock %}
+<body>
+<div id="header">
+minibin
+</div>
+<div id="content">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}
+  {% endblock %}
+</div>
+</body>
+</html>
