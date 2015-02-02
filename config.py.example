@@ -1,7 +1,7 @@
 class Config(object):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = 'sqlite://:memory:'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://username:passowrd@localhost/development'
     RECAPTCHA_PUBLIC_KEY = ''
     RECAPTCHA_PRIVATE_KEY = ''
     RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
@@ -9,7 +9,7 @@ class Config(object):
 
 
 class ProductionConfig(Config):
-    DATABASE_URI = 'postgresql://username:passowrd@localhost/dbname'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://username:passowrd@localhost/production'
 
 
 class DevelopmentConfig(Config):

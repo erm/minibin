@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for, render_template, \
     abort, flash
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext import restful
 from datetime import datetime
 from urllib.request import urlopen
 from urllib.parse import urlencode
@@ -12,9 +13,12 @@ import json
 app = Flask(__name__)
 app.config.from_object('config.DevelopmentConfig')
 db = SQLAlchemy(app)
+api = restful.Api(app)
 
 
 class Paste(db.Model):
+
+    __tablename__ = 'pastes'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
@@ -31,10 +35,49 @@ class Paste(db.Model):
         self.date_created = _date
 
     def __repr__(self):
-        return '<Paste %s %s>'.format(self.id, self.date_created)
+        return '<Paste %s %s>' % (self.id, self.date_created)
 
     def __str__(self):
         return self.id
+
+
+def format_paste(paste):  # format our pastes for the restful api
+    if paste.password:
+        _paste = None  # do not allow api access to private pastes
+    else:
+        _paste = {'content': paste.content,
+                  'date_created': str(paste.date_created),
+                  'id': paste.id}
+        if paste.title:  # title is optional
+            _paste['title'] = paste.title
+    return _paste
+
+
+class PastesAPI(restful.Resource):
+
+    def get(self):
+        pastes = Paste.query.order_by(Paste.date_created).all()
+        _pastes = []
+        for p in pastes:
+            _paste = format_paste(p)
+            if _paste:
+                _pastes.append(_paste)
+        return _pastes
+
+
+class PasteAPI(restful.Resource):
+
+    def get(self, pid):
+        paste = Paste.query.get(pid)
+        if not paste:
+            abort(404)
+        _paste = format_paste(paste)
+        if not _paste:
+            return "This paste is private."
+        return _paste
+
+api.add_resource(PasteAPI, '/api/paste/<int:pid>')
+api.add_resource(PastesAPI, '/api/pastes/')
 
 
 @app.route('/')
