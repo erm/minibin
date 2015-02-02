@@ -61,8 +61,8 @@ class MinibinTestCase(unittest.TestCase):
 
     # def test_basic_insert(self):
     #     c = self.app.test_client()
-    #     c.post('/add', data=dict(title='First Item', text='The text'))
-    #     c.post('/add', data=dict(title='2nd Item', text='The text'))
+    #     c.post('/add', data=dict(title='First Item', content='The text'))
+    #     c.post('/add', data=dict(title='2nd Item', content'The text'))
     #     rv = c.get('/')
     #     self.assertEqual(rv.data, b'First Item\n2nd Item')
 
