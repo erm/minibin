@@ -1,7 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template, \
     abort, flash
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy.dialects import postgresql
 from datetime import datetime
 from urllib.request import urlopen
 from urllib.parse import urlencode
@@ -22,13 +21,11 @@ class Paste(db.Model):
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255))
-    ip_address = db.Column(postgresql.INET, nullable=False)
 
     def __init__(self, title, content, password, ip_address):
         self.title = title
         self.content = content
         self.password = password
-        self.ip_address = ip_address
         _date = datetime.utcnow()
         _date = _date.replace(microsecond=0)
         self.date_created = _date
@@ -62,8 +59,7 @@ def create_paste():
             else:  # they passed the recaptcha, we can create the paste now
                 paste = Paste(request.form.get('title', None),
                               request.form.get('content'),
-                              request.form.get('password', None),
-                              request.remote_addr)
+                              request.form.get('password', None))
                 db.session.add(paste)
                 db.session.commit()
                 pid = paste.id
