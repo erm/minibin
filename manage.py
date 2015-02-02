@@ -1,6 +1,6 @@
 from flask.ext.script import Manager
 from minibin import create_app
-from minibin.config import DevelopmentConfig
+from config import DevelopmentConfig
 from minibin.models import *
 
 
