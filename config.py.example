@@ -1,6 +1,20 @@
-SQLALCHEMY_DATABASE_URI = 'postgresql://user:pass@localhost/dbname'
-RECAPTCHA_PUBLIC_KEY = ''
-RECAPTCHA_PRIVATE_KEY = ''
-RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
-SECRET_KEY = ''
-DEBUG = True
+class Config(object):
+    DEBUG = False
+    TESTING = False
+    DATABASE_URI = 'sqlite://:memory:'
+    RECAPTCHA_PUBLIC_KEY = ''
+    RECAPTCHA_PRIVATE_KEY = ''
+    RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+    SECRET_KEY = ''
+
+
+class ProductionConfig(Config):
+    DATABASE_URI = 'postgresql://username:passowrd@localhost/dbname'
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+
+class TestingConfig(Config):
+    TESTING = True

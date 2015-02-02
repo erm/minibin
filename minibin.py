@@ -10,7 +10,7 @@ import json
 
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('config.DevelopmentConfig')
 db = SQLAlchemy(app)
 
 
@@ -22,13 +22,19 @@ class Paste(db.Model):
     date_created = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255))
 
-    def __init__(self, title, content, password, ip_address):
+    def __init__(self, title, content, password):
         self.title = title
         self.content = content
         self.password = password
         _date = datetime.utcnow()
         _date = _date.replace(microsecond=0)
         self.date_created = _date
+
+    def __repr__(self):
+        return '<Paste %s %s>'.format(self.id, self.date_created)
+
+    def __str__(self):
+        return self.id
 
 
 @app.route('/')
