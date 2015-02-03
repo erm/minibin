@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>{{ paste.title }} {{ paste.date_created }}</h2>
-    {% for line in paste_enum %}
-        {% if line[0] < 10 %}
-            <pre> {{line[0]}}| {{line[1]}}</pre>
-            {% else %}
-            <pre>{{line[0]}}| {{line[1]}}</pre>
-            {% endif %}
-    {% endfor %}
-    <br>
-    <textarea name="content">{{ paste.content }}</textarea>
+<div class="row">
+    <div class="col-sm-8 col-md-8">
+        <div class="base-block">
+            <div class="title">{{ paste.title }} {{ paste.date_created }}</div>
+            <textarea name="content">{{ paste.content }}</textarea>
+        </div>
+    </div>
+    <!--/span-->
+</div>
+<!--/row-->
 {% endblock content %}

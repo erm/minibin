@@ -1,5 +1,5 @@
 from flask import Blueprint, request, redirect, url_for, render_template, \
-    abort, flash, current_app
+    abort, flash, current_app, session
 from minibin.models import *
 from urllib.request import urlopen
 from urllib.parse import urlencode
@@ -9,6 +9,21 @@ import json
 
 
 frontend = Blueprint('frontend', __name__)
+
+
+@frontend.app_errorhandler(404)
+def handle_404(err):
+    return render_template('404.html'), 404
+
+
+@frontend.app_errorhandler(413)
+def handle_413(err):
+    return render_template('413.html'), 413
+
+
+@frontend.app_errorhandler(500)
+def handle_500(err):
+    return render_template('500.html'), 500
 
 
 @frontend.route('/')
@@ -49,12 +64,11 @@ def create_paste():
 
 @frontend.route('/p/<pid>', methods=['POST', 'GET'])
 def view_paste(pid):
+    session.pop('_flashes', None)
     try:
         int(pid)  # paste ids are always an integer
     except ValueError:
         abort(404)
     else:
         paste = Paste.query.get_or_404(pid)
-        paste_enum = enumerate(paste.content.split('\n'))  # for line numbers
-        return render_template('view_paste.html', paste=paste,
-                               paste_enum=paste_enum)
+        return render_template('view_paste.html', paste=paste)
