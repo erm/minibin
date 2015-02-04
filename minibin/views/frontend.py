@@ -36,10 +36,13 @@ def api():
     return render_template('api.html')
 
 
-@frontend.route('/search')
+@frontend.route('/search', methods=['GET', 'POST'])
 def search():
-    paste = Paste.query.whoosh_search('second OR last').all()
-    return paste
+    if request.method == 'POST':
+        terms = request.form.get('terms')
+        pastes = Paste.query.filter(Paste.content.in_(terms)).all()
+        print(pastes)
+    return "LOL"
 
 
 @frontend.route('/')
@@ -73,13 +76,13 @@ def create_paste():
                               request.form.get('password', None))
                 db.session.add(paste)
                 db.session.commit()
-                pid = paste.id
+                id = paste.id
                 flash("Successfully created new paste!")
-                return redirect(url_for('frontend.view_paste', pid=pid))
+                return redirect(url_for('frontend.view_paste', id=id))
 
 
 @frontend.route('/p/<id>', methods=['POST', 'GET'])
-def view_paste(pid):
+def view_paste(id):
     session.pop('_flashes', None)
     try:
         int(id)  # paste ids are always an integer

@@ -2,15 +2,17 @@
 
 A minimal pastebin created using Python 3.4 and the Flask micro-framework.
 
-# todo
+# Todo
 
 - Tests.
-- Have recaptcha appear only on suspicious activity.
-- Style templates.
-- Add listing for recent public pastes.
-- Add private pastes and deletion passwords.
+- Have recaptcha appear only on suspicious activity
+- Style templates
+- Add paste browsing
+- Add private pastes and deletion passwords
+- Add pagination for restful API pastes
+- Replace current search with better fulltext search
 
-# requirements
+# Requirements
 
 - Python 3.4
 - Flask

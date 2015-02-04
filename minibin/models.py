@@ -8,7 +8,6 @@ db = SQLAlchemy()
 class Paste(db.Model):
 
     __tablename__ = 'pastes'
-    __searchable__ = ['content']
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
