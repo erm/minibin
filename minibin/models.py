@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+import flask.ext.whooshalchemy
 from datetime import datetime
 
 
@@ -8,6 +9,7 @@ db = SQLAlchemy()
 class Paste(db.Model):
 
     __tablename__ = 'pastes'
+    __searchable__ = ['title', 'content']
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))

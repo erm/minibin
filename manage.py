@@ -18,5 +18,11 @@ def create_db():
     print("Success!")
 
 
+@manager.command
+def runserver():
+    print("Running server...")
+    app.run(threaded=True)
+
+
 if __name__ == "__main__":
     manager.run()

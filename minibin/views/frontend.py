@@ -40,7 +40,8 @@ def api():
 def search():
     if request.method == 'POST':
         terms = request.form.get('terms')
-        pastes = Paste.query.filter(Paste.content.in_(terms)).all()
+        print(terms)
+        pastes = Paste.query.whoosh_search(str(terms)).all()
         print(pastes)
     return "LOL"
 
