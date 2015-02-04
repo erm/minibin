@@ -20,7 +20,7 @@ A minimal pastebin created using Python 3.4 and the Flask micro-framework.
 - PostgreSQL
 - Recaptcha API keys
 
-For full-text search, we also require Flask-WhooshAlchemy. However, the current release of the Flask-WhooshAlchemy extension does not support Python 3. To install a temporaroy compatability solution, use the following steps (within your virtual environment):
+For full-text search, we also require Flask-WhooshAlchemy. However, the current release of the Flask-WhooshAlchemy extension does not support Python 3. To install a temporary compatability solution, use the following steps (within your virtual environment):
 
     git clone https://github.com/tonet666p/Flask-WhooshAlchemy.git
     cd Flask-WhooshAlchemy
