@@ -38,10 +38,6 @@ class MinibinTestCase(unittest.TestCase):
         db = SQLAlchemy(app)
         self.Paste = make_paste_model(db)
 
-        # @app.route('/')
-        # def index():
-        #     return '\n'.join(x.title for x in self.Todo.query.all())
-
         @app.route('/new', methods=['POST'])
         def create_new_paste():
             form_ = flask.request.form
@@ -59,12 +55,6 @@ class MinibinTestCase(unittest.TestCase):
     def tearDown(self):
         self.db.drop_all()
 
-    # def test_basic_insert(self):
-    #     c = self.app.test_client()
-    #     c.post('/add', data=dict(title='First Item', content='The text'))
-    #     c.post('/add', data=dict(title='2nd Item', content'The text'))
-    #     rv = c.get('/')
-    #     self.assertEqual(rv.data, b'First Item\n2nd Item')
 
 if __name__ == '__main__':
     unittest.main()

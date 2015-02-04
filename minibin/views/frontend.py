@@ -26,6 +26,22 @@ def handle_500(err):
     return render_template('500.html'), 500
 
 
+@frontend.route('/github')
+def github():
+    return redirect('https://github.com/erm/minibin', code=302)
+
+
+@frontend.route('/api')
+def api():
+    return render_template('api.html')
+
+
+@frontend.route('/search')
+def search():
+    paste = Paste.query.whoosh_search('second OR last').all()
+    return paste
+
+
 @frontend.route('/')
 def index():
     return render_template('index.html')
@@ -62,13 +78,13 @@ def create_paste():
                 return redirect(url_for('frontend.view_paste', pid=pid))
 
 
-@frontend.route('/p/<pid>', methods=['POST', 'GET'])
+@frontend.route('/p/<id>', methods=['POST', 'GET'])
 def view_paste(pid):
     session.pop('_flashes', None)
     try:
-        int(pid)  # paste ids are always an integer
+        int(id)  # paste ids are always an integer
     except ValueError:
         abort(404)
     else:
-        paste = Paste.query.get_or_404(pid)
+        paste = Paste.query.get_or_404(id)
         return render_template('view_paste.html', paste=paste)

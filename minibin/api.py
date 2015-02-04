@@ -14,22 +14,22 @@ def format_paste(paste):  # format our pastes for the restful api
     return _paste
 
 
-class PastesAPI(Resource):
+# class PastesAPI(Resource): # implementing this when i add pagination
 
-    def get(self):
-        pastes = Paste.query.order_by(Paste.date_created).all()
-        _pastes = []
-        for p in pastes:
-            _paste = format_paste(p)
-            if _paste:
-                _pastes.append(_paste)
-        return _pastes
+#     def get(self):
+#         pastes = Paste.query.order_by(Paste.date_created).all()
+#         _pastes = []
+#         for p in pastes:
+#             _paste = format_paste(p)
+#             if _paste:
+#                 _pastes.append(_paste)
+#         return _pastes
 
 
 class PasteAPI(Resource):
 
-    def get(self, pid):
-        paste = Paste.query.get(pid)
+    def get(self, id):
+        paste = Paste.query.get(id)
         if not paste:
             abort(404)
         _paste = format_paste(paste)

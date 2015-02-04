@@ -1,7 +1,8 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import Api as API
-from .api import PasteAPI, PastesAPI
+from .models import Paste
+from .api import PasteAPI  # , PastesAPI
 
 
 def create_app(config):
@@ -20,5 +21,4 @@ def setup_database(app):
 
 def setup_api(app):
     api = API(app)
-    api.add_resource(PasteAPI, '/api/paste/<int:pid>')
-    api.add_resource(PastesAPI, '/api/pastes/')
+    api.add_resource(PasteAPI, '/api/paste/<int:id>')

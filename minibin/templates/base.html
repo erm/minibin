@@ -10,6 +10,7 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style type="text/css">
     body {
@@ -20,10 +21,10 @@
         display: block;
         width: 500px;
         height: 300px;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
     }
     .paste_info {
-      margin-bottom: 5px;
+      margin-bottom: 2px;
       width: 248px;
     }
   }
@@ -31,12 +32,10 @@
 </head>
   {% endblock %}
 <body>
+ {% block navbar %}
+    {% include 'navbar.html' %}
+  {% endblock %}
   <div class="container">
-    <div class="page-header">
-      <h1>
-        <a href="/">minibin</a>
-      </h1>
-    </div>
     {% for message in get_flashed_messages() %}
       <div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ message }}</div>
     {% endfor %}
