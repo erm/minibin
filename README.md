@@ -2,7 +2,7 @@
 
 A minimal pastebin created using Python 3.4 and the Flask micro-framework.
 
-# Todo
+# todo
 
 - Tests.
 - Have recaptcha appear only on suspicious activity

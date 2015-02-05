@@ -1,5 +1,5 @@
 from flask import Blueprint, request, redirect, url_for, render_template, \
-    abort, flash, current_app, session
+    abort, flash, current_app, session, g
 from minibin.models import *
 from urllib.request import urlopen
 from urllib.parse import urlencode
@@ -36,14 +36,19 @@ def api():
     return render_template('api.html')
 
 
-@frontend.route('/search', methods=['GET', 'POST'])
-def search():
+@frontend.route('/search', defaults={'page': 1}, methods=['POST'])
+@frontend.route('/page/<int:page>', methods=['POST', 'GET'])
+def search(page):
     if request.method == 'POST':
         terms = request.form.get('terms')
-        print(terms)
-        pastes = Paste.query.whoosh_search(str(terms)).all()
-        print(pastes)
-    return "LOL"
+        pastes = Paste.query.whoosh_search(str(terms)).paginate(page,
+                                                                10,
+                                                                False).items
+        return render_template('view_many_pastes.html',
+                               pastes=pastes,
+                               page=page)
+    else:
+        return "LOL"
 
 
 @frontend.route('/')

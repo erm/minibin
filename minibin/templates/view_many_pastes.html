@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-xs-6">  
+{% for paste in pastes %}
+    {{ paste.content }}<br>
+{% endfor %}
+{% if pastes.has_prev %}
+    <a href="{{ url_for('frontend.search', page=pastes.prev_num) }}"> Prev </a>
+{% endif %}
+{% if pastes.has_next %}
+    <a href="{{ url_for('frontend.search', page=pastes.next_num) }}"> Next </a>
+{% endif %}
+    </div>
+</div>
+{% endblock content %}
