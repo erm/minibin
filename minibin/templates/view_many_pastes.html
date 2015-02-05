@@ -3,7 +3,10 @@
 <div class="row">
     <div class="col-xs-6">  
 {% for paste in pastes %}
-    {{ paste.content }}<br>
+    {{ paste[0].date_created }}<br>
+    <a href="{{ url_for('frontend.view_paste', id=paste[0].id) }}">{{ paste[1] }}</a>
+<br>
+<br>
 {% endfor %}
 {% if pastes.has_prev %}
     <a href="{{ url_for('frontend.search', page=pastes.prev_num) }}"> Prev </a>

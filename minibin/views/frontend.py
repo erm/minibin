@@ -41,14 +41,18 @@ def api():
 def search(page):
     if request.method == 'POST':
         terms = request.form.get('terms')
-        pastes = Paste.query.whoosh_search(str(terms)).paginate(page,
-                                                                10,
-                                                                False).items
+        pastes = Paste.query.whoosh_search(str(terms),
+                                           current_app.config['MAX_SEARCH_RESULTS']
+                                           ).paginate(page, 10, False).items
+        _pastes = []
+        for paste in pastes:
+            truncated_paste = (paste.content[:30] + '...') \
+                if len(paste.content) > 75 else paste.content
+            _pastes.append((paste, truncated_paste))   # add paste samples
         return render_template('view_many_pastes.html',
-                               pastes=pastes,
+                               pastes=_pastes,
                                page=page)
-    else:
-        return "LOL"
+    return redirect(url_for('frontend.index'))
 
 
 @frontend.route('/')
