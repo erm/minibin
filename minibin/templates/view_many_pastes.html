@@ -2,18 +2,20 @@
 {% block content %}
 <div class="row">
     <div class="col-xs-6">  
-{% for paste in pastes %}
-    {{ paste[0].date_created }}<br>
-    <a href="{{ url_for('frontend.view_paste', id=paste[0].id) }}">{{ paste[1] }}</a>
-<br>
-<br>
-{% endfor %}
-{% if pastes.has_prev %}
-    <a href="{{ url_for('frontend.search', page=pastes.prev_num) }}"> Prev </a>
-{% endif %}
-{% if pastes.has_next %}
-    <a href="{{ url_for('frontend.search', page=pastes.next_num) }}"> Next </a>
-{% endif %}
+    {% for paste in pastes %}
+        {{ paste.date_created }}<br>
+        <a href="{{ url_for('frontend.view_paste', id=paste.id) }}">
+        {{ paste.truncated_content}}
+        </a>
+        <br>
+        <br>
+    {% endfor %}
+    {% if pastes.has_prev %}
+        <a href="{{ url_for('frontend.search', page=pastes.prev_num) }}"> Prev </a>
+    {% endif %}
+    {% if pastes.has_next %}
+        <a href="{{ url_for('frontend.search', page=pastes.next_num) }}"> Next </a>
+    {% endif %}
     </div>
 </div>
 {% endblock content %}

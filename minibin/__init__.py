@@ -11,8 +11,7 @@ def create_app(config):
     app.config.from_object(config)
     setup_api(app)
     setup_database(app)
-    from minibin.views.frontend import frontend
-    app.register_blueprint(frontend)
+    setup_views(app)
     return app
 
 
@@ -24,3 +23,8 @@ def setup_database(app):
 def setup_api(app):
     api = API(app)
     api.add_resource(PasteAPI, '/api/paste/<int:id>')
+
+
+def setup_views(app):
+    from minibin.views.frontend import frontend
+    app.register_blueprint(frontend)

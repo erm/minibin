@@ -16,11 +16,13 @@ class Paste(db.Model):
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255))
+    truncated_content = db.Column(db.Text)
 
-    def __init__(self, title, content, password):
+    def __init__(self, title, content, password, truncated_content):
         self.title = title
         self.content = content
         self.password = password
+        self.truncated_content = truncated_content
         _date = datetime.utcnow()
         _date = _date.replace(microsecond=0)
         self.date_created = _date

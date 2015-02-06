@@ -1,11 +1,14 @@
-from flask import Blueprint, request, redirect, url_for, render_template, \
-    abort, flash, current_app, session, g
-from minibin.models import *
+from flask import (Blueprint, request, redirect, url_for, render_template,
+                   abort, flash, session)
+from flask import current_app as app
+
 from urllib.request import urlopen
 from urllib.parse import urlencode
-import os
+
 import codecs
 import json
+
+from minibin.models import *
 
 
 frontend = Blueprint('frontend', __name__)
@@ -41,18 +44,31 @@ def api():
 def search(page):
     if request.method == 'POST':
         terms = request.form.get('terms')
-        pastes = Paste.query.whoosh_search(str(terms),
-                                           current_app.config['MAX_SEARCH_RESULTS']
-                                           ).paginate(page, 10, False).items
-        _pastes = []
-        for paste in pastes:
-            truncated_paste = (paste.content[:30] + '...') \
-                if len(paste.content) > 75 else paste.content
-            _pastes.append((paste, truncated_paste))   # add paste samples
-        return render_template('view_many_pastes.html',
-                               pastes=_pastes,
-                               page=page)
+        if not terms:
+            flash("No search terms specified.")
+        else:
+            terms = str(terms)
+            pastes = Paste.query.whoosh_search(terms,
+                                               app.config['MAX_SEARCH_RESULTS']
+                                               ).paginate(page,
+                                                          10,
+                                                          False).items
+            return render_template('view_many_pastes.html',
+                                   pastes=pastes,
+                                   page=page)
     return redirect(url_for('frontend.index'))
+
+
+@frontend.route('/recent', defaults={'page': 1})
+@frontend.route('/page/<int:page>', methods=['POST', 'GET'])
+def recent(page):
+    pastes = Paste.query.limit(app.config['MAX_RECENT_RESULTS']
+                               ).paginate(page,
+                                                10,
+                                                False).items
+    return render_template('view_many_pastes.html',
+                           pastes=pastes,
+                           page=page)
 
 
 @frontend.route('/')
@@ -65,9 +81,9 @@ def create_paste():
     if request.method == 'POST':
         #  verify the recaptcha response
         api_request_data = urlencode({
-            'secret': current_app.config['RECAPTCHA_PRIVATE_KEY'],
+            'secret': app.config['RECAPTCHA_PRIVATE_KEY'],
             'response': request.form.get('g-recaptcha-response')})
-        api_request = urlopen(current_app.config['RECAPTCHA_VERIFY_URL'],
+        api_request = urlopen(app.config['RECAPTCHA_VERIFY_URL'],
                               data=api_request_data.encode('utf-8'))
         reader = codecs.getreader('utf-8')
         #  check the api response for success (True) or failure (False)
@@ -75,15 +91,25 @@ def create_paste():
             api_response = json.load(reader(api_request)).get('success')
         except URLError:  # i probably want to handle this differently later
             flash("There was an error with the captcha, try again later.")
-            return redirect(url_for('index'))
+            return redirect(url_for('frontend.index'))
         else:
             if not api_response:
                 flash("Invalid captcha!")
                 return redirect(url_for('frontend.index'))
             else:  # they passed the recaptcha, we can create the paste now
+                content = request.form.get('content')
+                if not content:
+                    flash("No paste content detected.")
+                    return redirect(url_for('frontend.index'))
+                else:
+                    if len(content) > 150:  # create truncated paste content
+                        truncated_content = content[:30]
+                    else:
+                        truncated_paste = None
                 paste = Paste(request.form.get('title', None),
-                              request.form.get('content'),
-                              request.form.get('password', None))
+                              content,
+                              request.form.get('password', None),
+                              truncated_content)
                 db.session.add(paste)
                 db.session.commit()
                 id = paste.id
@@ -95,7 +121,7 @@ def create_paste():
 def view_paste(id):
     session.pop('_flashes', None)
     try:
-        int(id)  # paste ids are always an integer
+        int(id)  # paste ids are always an integer (for now)
     except ValueError:
         abort(404)
     else:

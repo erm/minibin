@@ -11,6 +11,8 @@ A minimal pastebin created using Python 3.4 and the Flask micro-framework.
 - Add private pastes and deletion passwords
 - Add pagination for restful API pastes
 - Replace current search with better fulltext search
+- Add random string identifiers for pastes
+
 
 # Requirements
 
