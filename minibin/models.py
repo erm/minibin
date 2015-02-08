@@ -8,27 +8,26 @@ db = SQLAlchemy()
 
 class Paste(db.Model):
 
-    __tablename__ = 'pastes'
+    __tablename__ = 'paste'
     __searchable__ = ['title', 'content']
 
     id = db.Column(db.Integer, primary_key=True)
+    url_id = db.Column(db.String(255))
+    public = db.Column(db.Boolean(), default=True)
     title = db.Column(db.String(255))
     content = db.Column(db.Text, nullable=False)
-    date_created = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255))
-    truncated_content = db.Column(db.Text)
+    created_on = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, title, content, password, truncated_content):
+    def __init__(self, url_id, title, content, password, truncated, public):
+        self.url_id = url_id
         self.title = title
         self.content = content
         self.password = password
-        self.truncated_content = truncated_content
-        _date = datetime.utcnow()
-        _date = _date.replace(microsecond=0)
-        self.date_created = _date
+        self.created_on = datetime.utcnow().replace(microsecond=0)
 
     def __repr__(self):
-        return '<Paste %s %s>' % (self.id, self.date_created)
+        return '<Paste %s [%s] %s>' % (self.id, self.url, self.date_created)
 
     def __str__(self):
         return self.id

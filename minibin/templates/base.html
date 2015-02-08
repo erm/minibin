@@ -9,8 +9,6 @@
   <meta name="author" content="">
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style type="text/css">
     body {
@@ -19,10 +17,21 @@
     textarea {
         font-family: monospace;
         display: block;
-        width:100%;
+        width:40.5em;
         overflow: auto;
         margin-bottom: 0.2em;
         min-height:20em;
+    }
+    #nav {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      overflow: auto;
+
+    }
+
+    #nav li {
+        display: inline;
     }
     .paste_info {
       margin-bottom: 0.2em;
@@ -36,9 +45,9 @@
  {% block navbar %}
     {% include 'navbar.html' %}
   {% endblock %}
-  <div class="container">
+  <div>
     {% for message in get_flashed_messages() %}
-      <div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ message }}</div>
+      <strong>Error:</strong> {{ message }}
     {% endfor %}
   {% block content %}
   {% endblock %}

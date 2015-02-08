@@ -105,7 +105,7 @@ def create_paste():
                     if len(content) > 150:  # create truncated paste content
                         truncated_content = content[:30]
                     else:
-                        truncated_paste = None
+                        truncated_content = None
                 paste = Paste(request.form.get('title', None),
                               content,
                               request.form.get('password', None),
