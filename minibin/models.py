@@ -19,11 +19,12 @@ class Paste(db.Model):
     password = db.Column(db.String(255))
     created_on = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, url_id, title, content, password, truncated, public):
+    def __init__(self, url_id, title, content, password, public):
         self.url_id = url_id
         self.title = title
         self.content = content
         self.password = password
+        self.public = public
         self.created_on = datetime.utcnow().replace(microsecond=0)
 
     def __repr__(self):

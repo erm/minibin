@@ -12,6 +12,7 @@ A minimal pastebin created using Python 3.4 and the Flask micro-framework.
 - Add pagination for restful API pastes
 - Replace current search with better fulltext search
 - Add random string identifiers for pastes
+- Fix the config structure and redo the example config
 
 
 # Requirements
@@ -28,3 +29,10 @@ For full-text search, we also require Flask-WhooshAlchemy. However, the current 
     cd Flask-WhooshAlchemy
     git checkout python-3-compatibility
     python setup.py install
+
+# Running
+    
+    pyvenv-3.4 venv
+    . venv/bin/activate
+    python manage.py create_db
+    python manage.py runserver

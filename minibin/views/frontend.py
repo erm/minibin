@@ -1,14 +1,15 @@
 from flask import (Blueprint, request, redirect, url_for, render_template,
                    abort, flash, session)
 from flask import current_app as app
-
 from urllib.request import urlopen
 from urllib.parse import urlencode
-
 import codecs
 import json
-
+import string
+import random
 from minibin.models import *
+
+string_domain = string.ascii_letters + string.digits
 
 
 frontend = Blueprint('frontend', __name__)
@@ -64,8 +65,8 @@ def search(page):
 def recent(page):
     pastes = Paste.query.limit(app.config['MAX_RECENT_RESULTS']
                                ).paginate(page,
-                                                10,
-                                                False).items
+                                          10,
+                                          False).items
     return render_template('view_many_pastes.html',
                            pastes=pastes,
                            page=page)
@@ -101,29 +102,21 @@ def create_paste():
                 if not content:
                     flash("No paste content detected.")
                     return redirect(url_for('frontend.index'))
-                else:
-                    if len(content) > 150:  # create truncated paste content
-                        truncated_content = content[:30]
-                    else:
-                        truncated_content = None
-                paste = Paste(request.form.get('title', None),
+                url_id = ''.join([random.choice(string_domain)
+                                 for i in range(8)])
+                paste = Paste(url_id,
+                              request.form.get('title', None),
                               content,
                               request.form.get('password', None),
-                              truncated_content)
+                              True)  # change later (public/prviate)
                 db.session.add(paste)
                 db.session.commit()
-                id = paste.id
                 flash("Successfully created new paste!")
-                return redirect(url_for('frontend.view_paste', id=id))
+                return redirect(url_for('frontend.view_paste', url_id=url_id))
 
 
-@frontend.route('/p/<id>', methods=['POST', 'GET'])
-def view_paste(id):
+@frontend.route('/p/<url_id>', methods=['GET'])
+def view_paste(url_id):
     session.pop('_flashes', None)
-    try:
-        int(id)  # paste ids are always an integer (for now)
-    except ValueError:
-        abort(404)
-    else:
-        paste = Paste.query.get_or_404(id)
-        return render_template('view_paste.html', paste=paste)
+    paste = Paste.query.filter_by(url_id=url_id).first()
+    return render_template('view_paste.html', paste=paste)
