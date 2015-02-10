@@ -14,13 +14,19 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def create_db():
-    engine = sqlalchemy.create_engine(app.config['POSTGRESQL_INFO'])
-    conn = engine.connect()
-    conn.execute("commit")
-    conn.execute("create database %s" % app.config['DATABASE_NAME'])
-    print("Creating database...")
-    db.create_all()
-    print("Success!")
+    if app.config['TESTING']:
+        print("You are not using the correct config for database creation...")
+    else:
+        try:
+            engine = sqlalchemy.create_engine(app.config['POSTGRESQL_INFO'])
+            conn = engine.connect()
+            conn.execute("commit")
+            conn.execute("create database %s" % app.config['DATABASE_NAME'])
+            print("Creating database...")
+            db.create_all()
+            print("Success!")
+        except:
+            print("There was an error creating the database...")
 
 
 @manager.command

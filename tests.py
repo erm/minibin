@@ -6,7 +6,6 @@ from datetime import datetime
 
 
 def make_paste_model(db):
-
     class Paste(db.Model):
 
         __tablename__ = 'pastes'

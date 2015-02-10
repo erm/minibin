@@ -1,4 +1,10 @@
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+
 class Config(object):
+    """Default config attributes."""
     DEBUG = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = 'postgresql://username:pass@localhost/development'
@@ -6,15 +12,27 @@ class Config(object):
     RECAPTCHA_PRIVATE_KEY = ''
     RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
     SECRET_KEY = ''
+    MAX_CONTENT_LENGTH = 64000
+    MAX_SEARCH_RESULTS = 50
+    MAX_RECENT_RESULTS = 50
+    DATABASE_NAME = None
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql://username:pass@localhost/production'
+    """Production config attributes."""
+    DATABASE_NAME = 'prod'
+    POSTGRESQL_INFO = 'postgresql://postgres:postgres@localhost'
+    SQLALCHEMY_DATABASE_URI = (POSTGRESQL_INFO + '/' + DATABASE_NAME)
 
 
 class DevelopmentConfig(Config):
+    """Development config attributes."""
+    DATABASE_NAME = 'dev'
+    POSTGRESQL_INFO = 'postgresql://postgres:postgres@localhost'
+    SQLALCHEMY_DATABASE_URI = (POSTGRESQL_INFO + '/' + DATABASE_NAME)
     DEBUG = True
 
 
 class TestingConfig(Config):
+    """Testing config attributes."""
     TESTING = True
