@@ -22,9 +22,9 @@ def setup_database(app):
 
 def setup_api(app):
     api = API(app)
-    api.add_resource(PasteAPI, '/api/paste/<int:id>')
+    api.add_resource(PasteAPI, '/api/paste/<url_id>')
 
 
 def setup_views(app):
-    from minibin.views.frontend import frontend
+    from app.views.frontend import frontend
     app.register_blueprint(frontend)

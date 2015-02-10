@@ -7,7 +7,7 @@ import codecs
 import json
 import string
 import random
-from minibin.models import *
+from app.models import *
 
 string_domain = string.ascii_letters + string.digits
 

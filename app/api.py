@@ -3,11 +3,12 @@ from .models import *
 
 
 def format_paste(paste):  # format our pastes for the restful api
-    if paste.password:
+    if not paste.public:
         _paste = None  # do not allow api access to private pastes
     else:
         _paste = {'content': paste.content,
-                  'date_created': str(paste.date_created),
+                  'created_on': str(paste.created_on),
+                  'url_id': paste.url_id,
                   'id': paste.id}
         if paste.title:  # title is optional
             _paste['title'] = paste.title
@@ -28,8 +29,8 @@ def format_paste(paste):  # format our pastes for the restful api
 
 class PasteAPI(Resource):
 
-    def get(self, id):
-        paste = Paste.query.get(id)
+    def get(self, url_id):
+        paste = Paste.query.filter_by(url_id=url_id).first()
         if not paste:
             abort(404)
         _paste = format_paste(paste)

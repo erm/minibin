@@ -1,7 +1,7 @@
 import unittest
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from minibin.models import Paste
+from app.models import Paste
 from datetime import datetime
 
 

@@ -1,8 +1,8 @@
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
-from minibin import create_app
+from app import create_app
 from config import DevelopmentConfig
-from minibin.models import *
+from app.models import *
 import sqlalchemy
 
 

@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row">
-    <div class="col-xs-6">
 
-        <h2>Retrieve an individual paste</h2> <blockquote>URL - http://minib.in/paste/[integer:id]</blockquote>
+
+        <h2>Retrieve an individual paste</h2> <blockquote>URL - http://minib.in/paste/[url_id]</blockquote>
         <h4>Example usage/output</h4>
         <pre>
-user@localhost:~$ curl http://minib.in/api/paste/1
+user@localhost:~$ curl http://minib.in/api/paste/c9SJEqPH
 
 {
     "content": "test",
@@ -17,6 +16,4 @@ user@localhost:~$ curl http://minib.in/api/paste/1
 </pre>
 
 
-    </div>
-</div>
 {% endblock content %}
