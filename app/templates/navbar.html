@@ -1,17 +1,10 @@
-<h2>minib.in</h2>
 <div id="nav">
-<ul>
-  <li>
-    <a href="{{ url_for('frontend.recent') }}">recent</a>
-  </li>
-  <li>
-    <a href="">about</a>
-  </li>
-  <li>
-  <form action="{{ url_for('frontend.search') }}" , method="post">
+<span style="font-weight:bold;font-size:1.5em">minib.in</span>
+  <a href="{{ url_for('frontend.index') }}">[new]</a>
+    <a href="{{ url_for('frontend.recent') }}">[recent]</a>
+    <a href="">[about]</a>
+<form action="{{ url_for('frontend.search') }}" , method="post">
       <input type="text"  name="terms" placeholder="Search">
     <button type="submit">Submit</button>
   </form>
-</li>
-</ul>
 </div>
