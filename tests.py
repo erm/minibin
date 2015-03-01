@@ -40,18 +40,7 @@ class MinibinTestCase(unittest.TestCase):
         app.config.from_object('config.TestingConfig')
         db = SQLAlchemy(app)
         self.paste = make_paste_model(db)
-
-        # @app.route('/new', methods=['POST'])
-        # def create_new_paste():
-        #     form_ = flask.request.form
-        #     paste = self.Paste(form_['title'], form_['content'],
-        #                        from_['password'])
-        #     db.session.add(paste)
-        #     db.session.commit()
-        #     return 'Added new paste'
-
         db.create_all()
-
         self.app = app
         self.db = db
 

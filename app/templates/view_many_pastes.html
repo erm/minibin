@@ -3,8 +3,7 @@
     {% for paste in pastes %}
         {{ paste.created_on }}<br>
         <a href="{{ url_for('frontend.view_paste', url_id=paste.url_id) }}">
-        {{ paste.content[30:] if paste.content|length > 150 else paste.content }}
-        </a>
+        {{ paste.content[30:] if paste.content|length > 150 else paste.content }}</a>
         <br>
         <br>
     {% endfor %}
