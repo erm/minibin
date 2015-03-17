@@ -63,10 +63,9 @@ def search(page):
 @frontend.route('/recent', defaults={'page': 1})
 @frontend.route('/page/<int:page>', methods=['POST', 'GET'])
 def recent(page):
-    pastes = Paste.query.limit(app.config['MAX_RECENT_RESULTS']
-                               ).paginate(page,
-                                          10,
-                                          False).items
+    pastes = Paste.query.order_by(Paste.created_on.desc()
+                                  ).limit(app.config['MAX_RECENT_RESULTS']
+                                          ).paginate(page, 10, False).items
     return render_template('view_many_pastes.html',
                            pastes=pastes,
                            page=page)

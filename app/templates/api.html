@@ -1,19 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+<h3>Retrieve an individual paste</h3>
+<blockquote>URL - http://minib.in/api/v1/paste/[url_id]
+<h4>Example usage/output</h4>
+<pre>
+        user@localhost:~$ curl http://minib.in/api/v1/paste/c9SJEqPH
 
-
-        <h2>Retrieve an individual paste</h2> <blockquote>URL - http://minib.in/paste/[url_id]</blockquote>
-        <h4>Example usage/output</h4>
-        <pre>
-user@localhost:~$ curl http://minib.in/api/paste/c9SJEqPH
-
-{
-    "content": "test",
-    "date_created": "2015-02-02 06:26:57",
-    "id": 1,
-    "title": "a title lol"
-}
+        {
+            "content": "test",
+            "date_created": "2015-02-02 06:26:57",
+            "id": 1,
+            "title": "a title lol"
+        }
 </pre>
-
-
+</blockquote>
 {% endblock content %}

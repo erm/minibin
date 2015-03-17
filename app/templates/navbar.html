@@ -2,8 +2,9 @@
 <span style="font-weight:bold;font-size:1.5em">minib.in</span>
   <a href="{{ url_for('frontend.index') }}">[new]</a>
     <a href="{{ url_for('frontend.recent') }}">[recent]</a>
-    <a href="">[about]</a>
-<form action="{{ url_for('frontend.search') }}" , method="post">
+    <a href="{{ url_for('frontend.api') }}">[api]</a>
+    <a href="https://github.com/erm/minibin">[about]</a>
+<form action="{{ url_for('frontend.search') }}" , method="post" style="display:inline;">
       <input type="text"  name="terms" placeholder="Search">
     <button type="submit">Submit</button>
   </form>

@@ -2,16 +2,20 @@ from flask.ext.restful import Resource
 from .models import *
 
 
-def format_paste(paste):  # format our pastes for the restful api
+def format_paste(paste):
+    """
+    Format a paste for the RESTful API
+    """
     if not paste.public:
-        _paste = None  # do not allow api access to private pastes
-    else:
-        _paste = {'content': paste.content,
-                  'created_on': str(paste.created_on),
-                  'url_id': paste.url_id,
-                  'id': paste.id}
-        if paste.title:  # title is optional
-            _paste['title'] = paste.title
+        return None  # disallow api access to private pastes
+    _paste = {
+        'content': paste.content,
+        'created_on': str(paste.created_on),
+        'url_id': paste.url_id,
+        'id': paste.id
+    }
+    if paste.title:  # title is optional
+        _paste['title'] = paste.title
     return _paste
 
 
